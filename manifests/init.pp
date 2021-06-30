@@ -27,14 +27,14 @@ class sysfs (
       source => 'puppet:///modules/sysfs/sysfs-reload',
       owner  => root,
       group  => root,
-      mode   => '0700',
+      mode   => '0755',
       before => File['/etc/systemd/system/sysfsutils.service']
     }
     file { '/etc/systemd/system/sysfsutils.service' :
       source => 'puppet:///modules/sysfs/sysfsutils.service',
       owner  => root,
       group  => root,
-      mode   => '0700',
+      mode   => '0644',
       before => Service['sysfsutils'],
     }
     exec { 'sysfsutils_reload_rhel':
