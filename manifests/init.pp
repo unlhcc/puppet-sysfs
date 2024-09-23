@@ -16,13 +16,13 @@
 # Copyright 2015 Dan Foster, unless otherwise noted.
 #
 class sysfs (
-  $settings  = undef
+  Optional[Hash] $settings = undef
 ) {
   package { 'sysfsutils':
     ensure => installed
   }
 
-  if ($::osfamily == 'RedHat') and (versioncmp($::facts['os']['release']['full'], '7') >= 0) {
+  if ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['full'], '7') >= 0) {
     file { '/usr/local/bin/sysfs-reload' :
       source => 'puppet:///modules/sysfs/sysfs-reload',
       owner  => root,
@@ -58,7 +58,7 @@ class sysfs (
     require => Package['sysfsutils'],
   }
 
-  if is_hash($settings) {
+  if $settings {
     create_resources('sysfs::setting', $settings)
   }
 
